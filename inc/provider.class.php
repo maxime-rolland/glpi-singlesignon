@@ -1139,7 +1139,14 @@ class PluginSinglesignonProvider extends CommonDBTM {
       $split = $this->fields['split_domain'];
       $login = false;
       $login_fields = ['userPrincipalName','login', 'username', 'id'];
-
+      $email = false;
+      $email_fields = ['email', 'e-mail', 'email-address', 'mail'];
+      $authorizedDomainsString = $this->fields['authorized_domains'];
+      $authorizedDomains = [];
+      if (isset($authorizedDomainsString)) {
+         $authorizedDomains = explode(',', $authorizedDomainsString);
+      }
+      
       foreach ($login_fields as $field) {
          if (isset($resource_array[$field]) && is_string($resource_array[$field])) {
             $login = $resource_array[$field];
@@ -1164,13 +1171,7 @@ class PluginSinglesignonProvider extends CommonDBTM {
          return $user;
       }
 
-      $email = false;
-      $email_fields = ['email', 'e-mail', 'email-address', 'mail'];
-      $authorizedDomainsString = $this->fields['authorized_domains'];
-      $authorizedDomains = [];
-      if (isset($authorizedDomainsString)) {
-         $authorizedDomains = explode(',', $authorizedDomainsString);
-      }
+    
 
       foreach ($email_fields as $field) {
          if (isset($resource_array[$field]) && is_string($resource_array[$field])) {
